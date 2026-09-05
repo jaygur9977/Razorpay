@@ -154,7 +154,7 @@ mongoose
     console.log(`   Database: ${mongoose.connection.name}`);
     console.log(`   Host: ${mongoose.connection.host}`);
     
-    server.listen(PORT, () => {
+    server.listen(PORT, '0.0.0.0', () => {
       console.log('\n🚀 RevArb AI Server Running');
       console.log(`   Port: ${PORT}`);
       console.log(`   Environment: ${process.env.NODE_ENV}`);
