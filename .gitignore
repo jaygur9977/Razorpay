@@ -1,0 +1,168 @@
+# ============================================
+# RevArb AI - Complete Project .gitignore
+# ============================================
+
+# Root level specific files
+PRESENTATION.txt
+RECOVERY_ISSUES_SOLUTIONS.md
+LLM_INTEGRATION_ANALYSIS.txt
+TEST_REPORT.txt
+txt
+.env
+.env.local
+.env.*.local
+
+# ============================================
+# Backend (Node.js/Express)
+# ============================================
+backend/node_modules/
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/pnpm-debug.log*
+backend/lerna-debug.log*
+backend/.env
+backend/.env.local
+backend/.env.development.local
+backend/.env.test.local
+backend/.env.production.local
+backend/uploads/*
+!uploads/.gitkeep
+backend/*.log
+backend/.DS_Store
+backend/coverage/
+backend/.nyc_output/
+
+# ============================================
+# Frontend (React/Vite)
+# ============================================
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/lerna-debug.log*
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# ============================================
+# IDE and Editor Files
+# ============================================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-project
+*.sublime-workspace
+.code-workspace
+
+# ============================================
+# OS Generated Files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================
+# Logs and Temp Files
+# ============================================
+*.log
+logs/
+*.tmp
+*.temp
+*.cache
+*.pid
+*.seed
+*.pid.lock
+
+# ============================================
+# Testing and Coverage
+# ============================================
+coverage/
+.nyc_output/
+.jest/
+*.test.js.snap
+__tests__/coverage/
+
+# ============================================
+# Build and Distribution
+# ============================================
+build/
+dist/
+out/
+.output/
+.vercel/
+.netlify/
+
+# ============================================
+# Database Files
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+data/
+database/
+
+# ============================================
+# Security and Secrets
+# ============================================
+*.pem
+*.key
+*.crt
+*.cert
+secrets/
+credentials/
+auth.json
+.token
+
+# ============================================
+# Documentation and Notes
+# ============================================
+NOTES.md
+TODO.md
+notes/
+docs/*.md
+!README.md
+
+# ============================================
+# Backup Files
+# ============================================
+*.bak
+*.backup
+*.old
+*~
+*.orig
+
+# ============================================
+# Package Manager Files
+# ============================================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================================
+# Misc
+# ============================================
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
