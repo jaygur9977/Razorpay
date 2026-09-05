@@ -22,6 +22,7 @@ backend/yarn-error.log*
 backend/pnpm-debug.log*
 backend/lerna-debug.log*
 backend/.env
+backend/.env.example
 backend/.env.local
 backend/.env.development.local
 backend/.env.test.local
