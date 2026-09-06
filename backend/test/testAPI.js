@@ -1,7 +1,7 @@
 // Complete API Testing Script
 import axios from 'axios';
 
-const API_URL = 'https://razorpay-production-35a2.up.railway.app/api';
+const API_URL = 'http://localhost:5000/api';
 
 const testAPI = async () => {
   console.log('🚀 Starting RevArb AI API Tests...\n');
