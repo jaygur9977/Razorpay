@@ -143,38 +143,56 @@ app.get('/', (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-// Connect to MongoDB and start server
+// ─── DB + Server Bootstrap ───────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/revenue_rescue_ai';
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => {
-    console.log('✅ MongoDB Connected Successfully');
-    console.log(`   Database: ${mongoose.connection.name}`);
-    console.log(`   Host: ${mongoose.connection.host}`);
-    
-    server.listen(PORT, '0.0.0.0', () => {
-      console.log('\n🚀 RevArb AI Server Running');
-      console.log(`   Port: ${PORT}`);
-      console.log(`   Environment: ${process.env.NODE_ENV}`);
-      console.log(`   API URL: http://localhost:${PORT}/api`);
-      console.log(`   Health: http://localhost:${PORT}/api/health`);
-      console.log(`\n   Available Endpoints:`);
-      console.log(`   - Auth: /api/auth`);
-      console.log(`   - Transactions: /api/transactions`);
-      console.log(`   - Cases: /api/cases`);
-      console.log(`   - Dashboard: /api/dashboard`);
-      console.log(`   - Simulation: /api/simulation`);
-      console.log(`   - Agents: /api/agents`);
-      console.log(`   - Upload: /api/upload`);
-      console.log(`   - Analytics: /api/analytics`);
-      console.log(`   - Notifications: /api/notifications`);
-      setInterval(() => scanAndQueuePendingCases().catch((error) => console.error('Pending recovery monitor error:', error)), 60000);
-      scanAndQueuePendingCases().catch((error) => console.error('Initial pending recovery scan error:', error));
+// Cache DB connection across Vercel warm invocations
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected && mongoose.connection.readyState === 1) return;
+  await mongoose.connect(MONGODB_URI);
+  isConnected = true;
+};
+
+if (process.env.VERCEL) {
+  // ── Vercel Serverless: connect eagerly on cold start ──
+  connectDB().catch((err) => console.error('❌ MongoDB Error:', err.message));
+} else {
+  // ── Local / traditional server mode ──
+  mongoose
+    .connect(MONGODB_URI)
+    .then(() => {
+      isConnected = true;
+      console.log('✅ MongoDB Connected Successfully');
+      console.log(`   Database: ${mongoose.connection.name}`);
+      console.log(`   Host: ${mongoose.connection.host}`);
+
+      server.listen(PORT, '0.0.0.0', () => {
+        console.log('\n🚀 RevArb AI Server Running');
+        console.log(`   Port: ${PORT}`);
+        console.log(`   Environment: ${process.env.NODE_ENV}`);
+        console.log(`   API URL: http://localhost:${PORT}/api`);
+        console.log(`   Health: http://localhost:${PORT}/api/health`);
+        console.log(`\n   Available Endpoints:`);
+        console.log(`   - Auth: /api/auth`);
+        console.log(`   - Transactions: /api/transactions`);
+        console.log(`   - Cases: /api/cases`);
+        console.log(`   - Dashboard: /api/dashboard`);
+        console.log(`   - Simulation: /api/simulation`);
+        console.log(`   - Agents: /api/agents`);
+        console.log(`   - Upload: /api/upload`);
+        console.log(`   - Analytics: /api/analytics`);
+        console.log(`   - Notifications: /api/notifications`);
+        setInterval(() => scanAndQueuePendingCases().catch((error) => console.error('Pending recovery monitor error:', error)), 60000);
+        scanAndQueuePendingCases().catch((error) => console.error('Initial pending recovery scan error:', error));
+      });
+    })
+    .catch((error) => {
+      console.error('❌ MongoDB Connection Failed:', error.message);
+      process.exit(1);
     });
-  })
-  .catch((error) => {
-    console.error('❌ MongoDB Connection Failed:', error.message);
-    process.exit(1);
-  });
+}
+
+// Export app for Vercel serverless handler
+export default app;
